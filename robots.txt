@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://va3ndf.com//sitemap.xml
