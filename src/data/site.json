@@ -1,14 +1,18 @@
 {
-  "name": "Eleventy Duo",
-  "description": "Eleventy Duo is a minimal and beautiful Eleventy theme for personal blogs.",
-  "url": "https://eleventyduo.netlify.app",
+  "name": "VA3NDF Blog",
+  "description": "Nick, VA3NDF's blog",
+  "url": "https://va3ndf.com/",
   "author": {
-    "name": "Author Name",
-    "email": "author@site.com",
-    "twitterHandle": "author_handle"
+    "name": "Nicholas Ficara",
+    "email": "me@va3ndf.com"
   },
   "defaultSocialImage": "/images/default-social-image.png",
   "headerLinks": [
+    {
+      "text": "[NEW] Postal QSL",
+      "url": "/postal-qsl",
+      "external": false
+    },
     {
       "text": "Blog",
       "url": "/blog",
@@ -22,18 +26,23 @@
   ],
   "socialLinks": [
     {
-      "text": "Instagram",
-      "url": "https://instagram.com/",
+      "text": "Personal Site",
+      "url": "https://nicholasficara.dev/",
       "external": true
     },
     {
       "text": "GitHub",
-      "url": "https://github.com/yinkakun/eleventy-duo",
+      "url": "https://github.com/Green-Robot-Dev-Studios",
       "external": true
     },
     {
-      "text": "Twitter",
-      "url": "https://twitter.com/",
+      "text": "QRZ",
+      "url": "https://www.qrz.com/db/VA3NDF",
+      "external": true
+    },
+    {
+      "text": "LinkedIn",
+      "url": "https://www.linkedin.com/in/nicholasficara/",
       "external": true
     }
   ],
@@ -44,5 +53,5 @@
       "external": true
     }
   ],
-  "showFooterAttribution": true
+  "showFooterAttribution": false
 }

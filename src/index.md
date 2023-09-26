@@ -3,6 +3,6 @@ layout: home
 title: 'Eleventy Duo'
 ---
 
-# Hello World
+# Hey I'm VA3NDF
 
-Eleventy Duo is a minimal and beautiful Eleventy theme for personal blogs. Checkout the [project's github repo](https://github.com/yinkakun/eleventy-duo) for more info.
+I'm a young amateur radio operator from Ottawa, Canada. Feel free to snoop around or check out some of my socials!
