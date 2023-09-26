@@ -5,7 +5,7 @@
   <link href="https://va3ndf.com//feed.xml" rel="self"/>
   <link href="https://va3ndf.com//"/>
   
-    <updated>2023-09-22T00:00:00Z</updated>
+    <updated>2023-09-25T00:00:00Z</updated>
   
   <id>https://va3ndf.com/</id>
   <author>
@@ -15,9 +15,46 @@
   
     
     <entry>
+      <title>University of Waterloo Rocketry</title>
+      <link href="https://va3ndf.com//posts/university-of-waterloo-rocketry/"/>
+      <updated>2023-09-23T00:00:00Z</updated>
+      <id>https://va3ndf.com//posts/university-of-waterloo-rocketry/</id>
+      <content type="html">
+        <![CDATA[
+      <p>The University of Waterloo Rocketry team utilizes amateur radio in the form of APRS for telemetry and tracking of the rocket!</p>
+<p>You'd think we went with a good ol' off the shelf APRS transceiver, and you would be partially correct! So far, we've been using an OTS APRS module that has worked great for us! But where's the fun in that? This term, we're designing a brand new one from the ground up. We're considering many possible architectures for this, maybe FPGAs? We'll see. (and you can see too if you subscribe to my RSS feed!)</p>
+
+    ]]>
+      </content>
+    </entry>
+  
+    
+    <entry>
+      <title>University of Waterloo Orbital</title>
+      <link href="https://va3ndf.com//posts/university-of-waterloo-orbital/"/>
+      <updated>2023-09-24T00:00:00Z</updated>
+      <id>https://va3ndf.com//posts/university-of-waterloo-orbital/</id>
+      <content type="html">
+        <![CDATA[
+      <h3>We're building a satellite!</h3>
+<p>34x10x10, that's what we've got. Not meters, feet, nor inches, but centimeters. It really ain't that much if you want to fit everything. 4kg max too.</p>
+<h3>The Canadian Satellite Design Challenge</h3>
+<blockquote>
+<p>Competition for teams of university students to design and build a small science research satellite known as a “cubesat” or “nanosatellite”.</p>
+</blockquote>
+<p>This year, University of Waterloo won! Yay!</p>
+<h3>Why?</h3>
+<p>We're building a payload that serves amateur radio operators! It's essentially a ham selfie stick! You place a request with some coordinates attached, then the next time our satellite is over that location we will take a photo and send it down over UHF with SSTV.</p>
+
+    ]]>
+      </content>
+    </entry>
+  
+    
+    <entry>
       <title>Hey, is this thing on?</title>
       <link href="https://va3ndf.com//posts/hey-is-this-thing-on/"/>
-      <updated>2023-09-20T00:00:00Z</updated>
+      <updated>2023-09-25T00:00:00Z</updated>
       <id>https://va3ndf.com//posts/hey-is-this-thing-on/</id>
       <content type="html">
         <![CDATA[
@@ -38,42 +75,6 @@
 </ul>
 <p>In the coming time, I will be writing about all of these in much greater depth individually.</p>
 <p>Thanks for reading my first blog post!</p>
-
-    ]]>
-      </content>
-    </entry>
-  
-    
-    <entry>
-      <title>University of Waterloo Orbital</title>
-      <link href="https://va3ndf.com//posts/university-of-waterloo-orbital/"/>
-      <updated>2023-09-21T00:00:00Z</updated>
-      <id>https://va3ndf.com//posts/university-of-waterloo-orbital/</id>
-      <content type="html">
-        <![CDATA[
-      <h3>We're building a satellite!</h3>
-<p>34x10x10, that's what we've got. Not meters, feet, nor inches, but centimeters. It really ain't that much if you want to fit everything. 4kg max too.</p>
-<h3>The Canadian Satellite Design Challenge</h3>
-<blockquote>
-<p>Competition for teams of university students to design and build a small science research satellite known as a “cubesat” or “nanosatellite”.</p>
-</blockquote>
-<p>This year, University of Waterloo won! Yay!</p>
-<h3>Why?</h3>
-<p>We're building a payload that serves amateur radio operators! It's essentially a ham selfie stick! You place a request with some coordinates attached, then the next time our satellite is over that location we will take a photo and send it down over UHF with SSTV.</p>
-
-    ]]>
-      </content>
-    </entry>
-  
-    
-    <entry>
-      <title>University of Waterloo Rocketry</title>
-      <link href="https://va3ndf.com//posts/university-of-waterloo-rocketry/"/>
-      <updated>2023-09-22T00:00:00Z</updated>
-      <id>https://va3ndf.com//posts/university-of-waterloo-rocketry/</id>
-      <content type="html">
-        <![CDATA[
-      <p>The University of Waterloo Rocketry team utilizes amateur radio in the form of APRS for telemetry and tracking of the rocket!</p>
 
     ]]>
       </content>
