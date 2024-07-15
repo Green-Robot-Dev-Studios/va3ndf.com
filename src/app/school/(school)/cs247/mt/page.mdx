@@ -1,0 +1,348 @@
+---
+title: Midterm Review
+date: 2024-06-23
+---
+import getFile from "@lib/get-file";
+
+# CS 247 Midterm Review
+
+<details open>
+<summary>
+## The explicit keyword
+</summary>
+- The `explicit` keyword is used to prevent implicit conversions.
+
+Consider:
+```cpp
+class String {
+public:
+    String(int n); // allocate n bytes to the String object
+    String(const char *p); // initializes object with char *p
+};
+```
+If you try `String foo = 'x'`, then the compiler will implicitly convert `'x'` to an integer and call the `String(int n)` constructor. To prevent this, you can use the `explicit` keyword in the constructor that takes an integer argument.
+
+```cpp
+class String {
+public:
+    explicit String(int n); // allocate n bytes to the object
+    String(const char *p); // initializes object with char *p
+};
+```
+
+Now, if you try `String foo = 'x'`, the compiler will throw an error because it cannot implicitly convert `'x'` to an integer.
+</details>
+
+<details open>
+<summary>
+## Member Initialization Lists (MIL)
+</summary>
+
+- Member Initialization Lists (MIL) are used to initialize member variables of a class.
+
+Consider:
+```cpp
+class Point {
+public:
+    Point(int x, int y) : x{x}, y{y} {}
+    // alternative, also MIL
+    Point(int x, int y) : x(x), y(y) {}
+    // alternative, without MIL
+    Point(int x, int y) { this->x = x; this->y = y; }
+
+private:
+    int x;
+    int y;
+};
+```
+
+Differences between the three constructors:
+1. The first constructor uses MIL and `{}` syntax, a.k.a. uniform initialization syntax to initialize the member variables.
+2. The second constructor uses MIL and `()` syntax to initialize the member variables. For integers, prefer `{}` syntax. See [this](https://stackoverflow.com/questions/18222926/what-are-the-advantages-of-list-initialization-using-curly-braces) for more information.
+3. The third constructor does not use MIL and initializes the member variables in the constructor body.
+
+In general, MIL is preferred and sometimes necessary in the case of reference fields or constant members. For example:
+```cpp
+class Point {
+public:
+    Point(int x, int y) : x{x}, y{y}, lockedValue{y} {}
+    // does not compile
+    // Point(int x, int y) { this->x = x; this->y = y; this->ref = y; }
+private:
+    int x;
+    int y;
+    const int lockedValue;
+};
+```
+
+For references, consider:
+```cpp
+class Point {
+public:
+    Point(int x, int y, int &ref) : x{x}, y{y}, ref{ref} {}
+    // does not compile
+    // Point(int x, int y) { this->x = x; this->y = y; this->ref = y; }
+private:
+    int x;
+    int y;
+    int &ref;
+};
+```
+
+Same goes for any other fields that are not default-constructible.
+
+</details>
+
+<details open>
+<summary>
+## Overloading
+</summary>
+
+Overloading is the ability to define multiple functions with the same name but different parameters.
+
+Consider:
+```cpp
+class Point {
+public:
+    Point(int x, int y) : x{x}, y{y} {}
+    Point(int x) : x{x}, y{0} {}
+    Point() : x{0}, y{0} {}
+
+    void print() {
+        std::cout << "x: " << x << ", y: " << y << std::endl;
+    }
+
+    void print(int n) {
+        for (int i = 0; i < n; ++i) {
+            std::cout << "x: " << x << ", y: " << y << std::endl;
+        }
+    }
+
+private:
+    int x;
+    int y;
+};
+```
+
+In the above example, we have three constructors with the same name `Point` but different parameters. This is possible because the constructors have different parameter lists. The compiler will choose the appropriate constructor based on the number and types of arguments passed. Similarly, you can overload member functions as well.
+
+<Admonition type="idea">
+**Key Idea:** Operator overloading is simply overloading functions, with the only difference being that the function name is `operator<op>` where `<op>` is the operator you want to overload.
+</Admonition>
+
+Consider:
+```cpp
+class Point {
+public:
+    Point(int x, int y) : x{x}, y{y} {}
+    Point operator+(const Point &other) {
+        return Point(x + other.x, y + other.y);
+    }
+private:
+    int x;
+    int y;
+};
+```
+
+For operators with 1-arity (unary), we only have one parameter. For example, the `!` operator is unary. For operators with 2-arity (binary), we have two parameters. For example, the `+` operator is binary. Another example of a binary is operator is `>>`. Taking a closer look:
+
+```cpp
+class Point {
+public:
+    Point(int x, int y) : x{x}, y{y} {}
+    Point operator>>(istream &is) {
+        is >> x >> y;
+        return is;
+    }
+private:
+    int x;
+    int y;
+};
+```
+
+For common stream operators, `operator>>` and `operator<<`, we implement the overload as an independant non-member function. Why? Because the left-hand side of the operator is the class that would require the overload, not the right. For example:
+
+```cpp
+class Point {
+public:
+    Point(int x, int y) : x{x}, y{y} {}
+    friend istream &operator>>(istream &is, Point &p) {
+        is >> p.x >> p.y;
+        return is;
+    }
+private:
+    int x;
+    int y;
+};
+```
+
+<Admonition type="idea">
+    This is a good example of the friend keyword. The `operator>>` function is not a member of the `Point` class, but it has access to the private members of the `Point` class. This is because it is declared as a `friend` of the `Point` class.
+</Admonition>
+
+<Admonition type="idea">
+    Key question: why was the above `operator+` allowed? 
+
+    We defined the class! We can either overload as a member function or aas a non-member function. We chose the former. It would have also been possible to declare a friend function like this:
+    ```cpp
+    friend Point operator+(const Point &lhs, const Point &rhs) {
+        return Point(lhs.x + rhs.x, lhs.y + rhs.y);
+    }
+    ```
+
+    The call site of these two implementations would appear the same, but would be equivalent to different things.
+    ```cpp
+    Point p1(1, 2);
+    Point p2(3, 4);
+
+    // Original way, member function
+    Point p3 = p1 + p2; // Equivalent to p1.operator+(p2)
+
+    // This way, friend function
+    Point p4 = p1 + p2; // Equivalent to operator+(p1, p2)
+
+    // Fact: if you do both, compilation will fail because of ambiguity.
+    ```
+
+    TLDR: *A friend function is not a member function!* It is a free function that has access to the private members of the class.
+</Admonition>
+
+Consider:
+```cpp
+class Point {
+public:
+    Point(int x, int y) : x{x}, y{y} {}
+private:
+    int x;
+    int y;
+};
+
+p1 = Point(1, 2);
+int myInt = 5;
+```
+
+<Quiz question="Suppose you want to support adding a scalar integer to the point like this `p1 + myInt`. How could you achieve this?" answers={["Member function in Point", "Standalone function", "Standalone friend function to Point", "EITHER Member function in Point OR Standalone friend function to Point"]} />
+
+<Quiz question="Same question, but now you want `myInt + p1`. How?" answers={["Member function in Point", "Standalone function", "Standalone friend function to Point", "EITHER Member function in Point OR Standalone friend function to Point"]} />
+
+One more opeator, `=`. Consider:
+```cpp
+class Point {
+public:
+    Point(int x, int y) : x{x}, y{y} {}
+    Point &operator=(const Point &other) {
+        x = other.x;
+        y = other.y;
+        return *this;
+    }
+private:
+    int x;
+    int y;
+};
+```
+
+
+<Admonition type="idea">
+    Key observation: why did we return `*this`?
+
+    The `operator=` function returns a reference to the object being assigned to. This allows for chaining of assignments. For example:
+    ```cpp
+    Point p1(1, 2);
+    Point p2(3, 4);
+    Point p3(5, 6);
+
+    p1 = p2 = p3;
+    ```
+
+    Remember: `p1 = p2 = p3` is equivalent to `p1 = (p2 = p3)` and to `p1.operator=(p2.operator=(p3))`. The `operator=` function returns a reference to the object being assigned to, so the assignment can be chained.
+</Admonition>
+
+The operators that may only be overloaded as member functions are:
+- `=`
+- `()`
+- `[]`
+- `->`
+
+Fun fact: the `""` operator can only be overloaded as a non-member function.
+
+</details>
+
+<details open>
+<summary>
+## Value Categories
+</summary>
+
+<ins>value category</ins>
+- **Lvalue:** Can you take the address of it? If yes, it's an lvalue.
+    - Examples: variables, dereferenced pointers, lvalue references, etc.
+    - `x`, `*p`, `y`, etc.
+- **Rvalue:** Can you take the address of it? If no, it's an rvalue.
+    - Examples: literals, temporary objects, etc.
+    - `69`, `Point(1, 2)`, `std::move(p)`, etc.
+
+</details>
+
+<details open>
+<summary>
+## Big 5
+</summary>
+
+The Big 5 are:
+1. Destructor
+2. Copy Constructor
+3. Copy Assignment Operator
+4. Move Constructor
+5. Move Assignment Operator
+
+```c
+class Array {
+public:
+    Array(int n) : size{n}, data{new int[n]} {}
+    ~Array() { delete[] data; }
+    Array(const Array &other) : size{other.size}, data{new int[other.size]} {
+        for (int i = 0; i < size; ++i) {
+            data[i] = other.data[i];
+        }
+    }
+    Array &operator=(const Array &other) {
+        if (this != &other) {
+            delete[] data;
+            size = other.size;
+            data = new int[other.size];
+            for (int i = 0; i < size; ++i) {
+                data[i] = other.data[i];
+            }
+        }
+        return *this;
+    }
+    Array(Array &&other) : size{other.size}, data{other.data} {
+        other.size = 0;
+        other.data = nullptr;
+    }
+    Array &operator=(Array &&other) {
+        if (this != &other) {
+            delete[] data;
+            size = other.size;
+            data = other.data;
+            other.size = 0;
+            other.data = nullptr;
+        }
+        return *this;
+    }
+}
+
+```
+
+</details>
+
+<details open>
+<summary>
+## std::move
+</summary>
+
+`std::move` is a utility function that casts an lvalue to an rvalue reference. It is used to indicate that an object may be "moved from", i.e., its resources can be transferred to another object. It does not actually move anything; it just casts the object to an rvalue reference.
+
+</details>
+
+
+

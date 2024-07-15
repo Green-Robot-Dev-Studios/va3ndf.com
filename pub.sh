@@ -1,1 +1,1 @@
-echo va3ndf.com > ./public/CNAME && npx gh-pages -d public
+echo va3ndf.com > ./out/CNAME && touch ./out/.nojekyll && npx gh-pages -d out -t true
