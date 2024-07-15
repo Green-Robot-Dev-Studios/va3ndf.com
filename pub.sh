@@ -1,0 +1,1 @@
+echo va3ndf.com > ./public/CNAME && npx gh-pages -d public

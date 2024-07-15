@@ -1,6 +1,6 @@
 ---
 layout: home
-title: 'Eleventy Duo'
+title: 'VA3NDF Blog'
 ---
 
 # Hey I'm VA3NDF
