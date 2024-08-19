@@ -21,7 +21,7 @@ export function getSortedPostsData() {
             return {
                 id,
                 ...matterResult.data,
-                excerpt: matterResult.excerpt,
+                excerpt: matterResult.data.mini || matterResult.excerpt,
                 content: matterResult.content,
                 readingTime: readingTime(matterResult.content)
             };

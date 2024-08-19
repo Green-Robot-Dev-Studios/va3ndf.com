@@ -1,0 +1,68 @@
+1. Multiple inheritance - allows you to inherit from multiple classes. Introduces the diamond problem, where B and C both inherit from A, and D multiply inherits from B and C. Virtual inheritance solves this by inheriting the base class (A) only once.
+2. 
+	- Derived classes will call the constructors for all base classes first
+	- Compiler generated constructor is called afterward for the base class
+3. To overload a method, you must have some combination of different parameter types, different number of parameters or different sequence of parameter types. You cannot overload methods with only a change to the const-ness, only a change to return type, or by creating an ambiguous new method with default parameters.
+4. 
+	- In band signaling: using a zero or negative value to indicate a value. As a con, it limits the range of your return value.
+	- Assertions: has no option for recovery
+	- Output parameters (i.e. `void fn(bool& success)`): introduces complexity and is unclean
+5. 
+	Stack unwinding is the process of freeing stack variables and calling destructors for objects on the stack at the end of a scope. If an error is thrown, the stack will be unwound all the way to the catching block. This is essentially what RAII is (or half of it). This is how the data is freed automatically at the end of a block, satisfying RAII.  
+6. Using `throw` is almost always better. It preserves the stack trace, it avoids exception slicing (where you are catching a base exception class instead of its derived version), and it avoids creating a copy of the exception. It guarantees the exception stays intact.
+7. Compile time error. The copy assignment operator (=) and copy constructor are explicitly removed from the `unique_ptr` class. Note move still works.
+8. To quickly allow the reader of your code to build a mental model of the functionality of your code and navigate it quicker. Additionally, it is to avoid dependancy sprawl when originally writing the code.
+9. Nope
+10. Compared to C casts, C++ casts are made from fairy roses. They are mostly (all except `dynamic_cast`) compile time checked and can be statically analyzed easily by tooling (not part of course, but very relevant for cybersec). C casts are not checked at all and can fail easily at runtime. Also they may not fail for a very long time until just the right moment. 
+	- `static_cast`
+		- Upcasting or downcasting classes to derived and base classes respectively.
+		- Safe casting between compatible numeric types
+	- `dynamic_cast`
+		- Used for casting with dynamic types (i.e. polymorphic types).
+		- Returns nullptr if cast fails
+	- `const_cast`
+		- Someone somewhere screwed up royally or you're working with a very old API (good luck)
+		- Used to add or remove const-ness (or volatility 🤢) to a variable
+	- `reinterpret_cast`
+		- Casts at the bit level. Probably one of the most dangerous things you can do. Also someone probably screwed up somewhere.
+11. `dynamic_cast` is really only useful for classes with at least one virtual method defined (derived classes that have vtables). Dynamic casting itself relies on RTTI, runtime type information, which doesn't exist for derived classes with no vtables. This is compile-time enforced. If the derived class has no vtables, then you can simply static cast.
+12. Nope
+13. SOLID
+	- Single responsibility - do one thing, and do it well (UNIX philosophy too)
+	- Open closed - objects should be easy to extend without having to modify it
+	- Liskov substitution - child classes should be substitutable for their parent classes
+	- Interface segregation - there should be no methods on interfaces (abstract classes) that clients can't implement in a semantically relevant way
+	- Dependancy inversion - high level modules should not depend on low level ones
+14. Code with massive if/switch cases usually violates OCP. (looking at you yandere dev) To fix this, create more classes and work with them in a more modular way.
+```cpp
+class Animal {
+	enum Type {
+		Cat,
+		Dog,
+		Eel,
+	}
+	Type type;
+
+	getSound() {
+		if (type == Cat) {
+			...
+		} else if (type == Dog) {
+			...
+		} else {
+			...
+		}
+	}
+}
+```
+15. https://refactoring.guru/design-patterns/template-method
+    Split an algo into steps, then create an abstract base class for it with each step as a method, then override the ABC with the concrete implementation. Good for file parsing when you have multiple types of files (like JPEG, PNG, GIF, TIFF, etc.)
+16. Not in this year's offering? But it's not that complicated. Private and protected inheritance simply take in the base class's non-private members as private or protected.
+17. Nope
+18. Nope
+19. One key use is speed. No virtual dispatch is required, so methods are directly called. Concretely, compiler optimizations will inline CRTP code. This is static polymorphism. A second use is mixin classes, where you can easily extend a class's functionality. One risk is mixing CRTP and complex inheritance hierarchies. 
+20. 4 levels
+	- Nothrow - the function and any code it calls will not throw exceptions. Should be marked `noexcept`. Nothrow should be ensured for any function that appears in stack unwinding. By default, destructors are marked `noexcept` since C++11.  
+	- Strong guarantee - if an exception is raised, state is rolled back
+	- Basic guarantee - if an exception is raised, program is in a valid state and nothing is leaked
+	- No exception guarantee - if an exception is raised, no guarantees are made
+21. Optimizations can be made if the compiler knows that a function cannot raise an exception. If a method is noexcept, it may not provide the nothrow guarantee. Because (imo) questionable language design, `noexcept` functions can indeed raise exceptions which will create a call to `std::terminate`. This does not satisfy nothrow.

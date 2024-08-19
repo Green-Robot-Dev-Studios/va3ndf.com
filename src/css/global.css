@@ -37,6 +37,19 @@ body::-webkit-scrollbar-thumb {
   padding: 0;
 }
 
+ul, ol {
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  padding-inline-start: 20px;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+}
+
+li {
+  margin-bottom: 0.5rem;
+}
+
 img,
 video,
 canvas,
@@ -232,3 +245,5 @@ mark {
   white-space: nowrap;
   width: 1px;
 }
+
+

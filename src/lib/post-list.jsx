@@ -24,7 +24,7 @@ export default function PostList({ posts }) {
 
                 <p className="post-list__excerpt">{excerpt}</p>
 
-                <a className="post-list__read-more" href={id}>read article</a>
+                <a className="post-list__read-more" href={`/posts/${id}`}>read article</a>
                 </li>
             ))}
         </ul>

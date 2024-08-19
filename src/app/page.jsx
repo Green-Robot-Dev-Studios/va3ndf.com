@@ -65,7 +65,7 @@ export default function Home() {
                 <PostList posts={allPostsData.slice(0,5)} />
             </section>
 
-            <a className="all-posts-link" href="/list/">
+            <a className="all-posts-link" href="/posts">
                 View All Posts
             </a>
         </>
