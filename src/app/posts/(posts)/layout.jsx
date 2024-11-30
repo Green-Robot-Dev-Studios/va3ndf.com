@@ -33,14 +33,14 @@ export default function App({ children }) {
 
                     <nav className="post__pagination">
                         {next && (
-                            <a href={`/${next.id}`}>
+                            <a href={`/posts/${next.id}`}>
                                 <span>←</span>
                                 <span>{next.title}</span>
                             </a>
                         )}
 
                         {prev && (
-                            <a href={`/${prev.id}`}>
+                            <a href={`/posts/${prev.id}`}>
                                 <span>{prev.title}</span>
                                 <span>→</span>
                             </a>

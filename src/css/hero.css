@@ -18,6 +18,7 @@
   list-style-type: none;
   margin-top: 2rem;
   text-transform: uppercase;
+  padding-left: 0;
 }
 
 .hero__social-links > li {

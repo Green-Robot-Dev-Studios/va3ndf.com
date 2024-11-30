@@ -33,7 +33,7 @@ export default ({cells}) => {
 
     return (
         <Admonition title="Desmos" type="normal" icon="📈">
-            <div id="calculator" style={{ width: 600, height: 500 }}></div>
+            <div id="calculator" style={{ width: "100%", height: 500 }}></div>
         </Admonition>
     );
 };

@@ -10,11 +10,11 @@ mini: A tour of my colocated homelab complete with running an AS and 40+ docker 
 
 # Here's my dashboard
 
-![lab-dashboard](./assets/lab-dash.png)
+![lab-dashboard](assets/lab-dash.png)
 
 It's been a wild ride setting up and securing this lab. This is running on an old gaming computer I own at home. I've been loving using it for a long time now, but I've found myself wanting more. More of a challenge, more reliability, more everything.
 
-![server](./assets/server.png)
+![server](assets/server.png)
 
 This is a little more :)
 

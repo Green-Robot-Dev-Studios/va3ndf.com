@@ -17,7 +17,7 @@ Mammoth.js is a library that allows you to convert a .docx file into a .html or 
 
 The Google Drive folder is downloaded as a zip, extracted, and recursively converted into html files.
 
-![diagram](./assets/mermaid-diagram-20210708145610.svg)
+![diagram](assets/mermaid-diagram-20210708145610.svg)
 
 I realized I needed a framework or tool to piece together all of these dangling html files. **Enter Eleventy.** Eleventy seemed to be the perfect tool for the job. When I first started looking at using Eleventy, I was hesitant because I didn't like the idea of having Nunjucks as my main template language. I eventually decided to use it anyway, because so many awesome looking and popular websites have succeeded with it.
 

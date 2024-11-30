@@ -2,7 +2,6 @@
 title: Midterm Review
 date: 2024-06-23
 ---
-import getFile from "@lib/get-file";
 
 # Module 1
 

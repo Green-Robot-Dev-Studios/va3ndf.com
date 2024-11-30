@@ -37,6 +37,22 @@ export default ({
             });
     });
 
+    const handleClick = () => {
+        const selected = document.querySelector('input[name="answer"]:checked');
+        if (!selected) return;
+        if (selected.value === correct) {
+            selected.parentElement.style.backgroundColor = "#8bc34a";
+        } else {
+            selected.parentElement.style.backgroundColor = "#f44336";
+        }
+        document.querySelectorAll('input[name="answer"]').forEach((input) => {
+            if (input.value === correct) {
+                input.parentElement.style.backgroundColor = "#8bc34a";
+            }
+            input.disabled = true;
+        });
+    }
+
     if (!isClient) return <></> 
     return (
         <Admonition type="normal" title="Quiz" icon="📋">
@@ -60,7 +76,7 @@ export default ({
                         )
                     )}
                 </div>
-                <button id="submit" style={{padding: "0.6rem", borderRadius: "0.3rem", backgroundColor: "#8bc34a"}}>Check</button>
+                <button onClick={handleClick} id="submit" style={{padding: "0.6rem", borderRadius: "0.3rem", backgroundColor: "#8bc34a"}}>Check</button>
             </div>
         </Admonition>
     );

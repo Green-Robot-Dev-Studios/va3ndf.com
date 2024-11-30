@@ -21,14 +21,10 @@ const plex = IBM_Plex_Sans({ subsets: ["latin-ext"], weight: ["400"] });
 export default function Layout({ children }) {
     return (
         <html>
-            {/* <head>
-                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" integrity="sha384-wcIxkf4k558AjM3Yz3BBFQUbk/zgIYC2R0QpeeYb+TwlBVMrlgLqwRjRtGZiK7ww" crossorigin="anonymous"/>
-            </head> */}
-            {/* <Head>
-                <head>
-                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" integrity="sha384-wcIxkf4k558AjM3Yz3BBFQUbk/zgIYC2R0QpeeYb+TwlBVMrlgLqwRjRtGZiK7ww" crossorigin="anonymous"/>
+            <head>
+                <title>Nick's Blog</title>
+                <link rel="icon" href="/favicon.ico" />
             </head>
-            </Head> */}
             <body>
                 <div className={plex.className}>
                     <div className="layout-wrapper">

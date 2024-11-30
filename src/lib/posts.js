@@ -2,10 +2,11 @@ import fs, { readFileSync, readdirSync } from "fs";
 import path from "path";
 import matter from "gray-matter";
 
-const postsDirectory = path.join(process.cwd(), "src/app/posts/(posts)/");
-const readingTime = (post) => Math.ceil(post.split(" ").length / 238.0) + " min read";
 
-export function getSortedPostsData() {
+export function getSortedPostsData(name = "posts") {
+    const postsDirectory = path.join(process.cwd(), `src/app/${name}/(${name})/`);
+    const readingTime = (post) => Math.ceil(post.split(" ").length / 238.0) + " min read";
+
     const fileNames = readdirSync(postsDirectory, { withFileTypes: true }).filter(d => d.isDirectory());
     const allPostsData = fileNames
         .map(dir => readdirSync(path.join(dir.parentPath, dir.name))
