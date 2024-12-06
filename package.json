@@ -10,6 +10,7 @@
     "gray-matter": "^4.0.3",
     "next": "^14.2.3",
     "next-compose-plugins": "^2.2.1",
+    "next-view-transitions": "^0.3.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "rehype-highlight": "^7.0.0",

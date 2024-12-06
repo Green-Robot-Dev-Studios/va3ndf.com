@@ -1,3 +1,5 @@
+import { Link } from "next-view-transitions";
+
 export default function List() {
     return <>
         <div style={{display: "flex", marginBottom: "3rem" }}>
@@ -6,7 +8,7 @@ export default function List() {
                 CS240 (Unfinished)
                 <ul style={{padding: "revert"}}>
                     <li>
-                        <a href="/school/cs240/mt">Midterm Prep</a>
+                        <Link href="/school/cs240/mt">Midterm Prep</Link>
                     </li>
                 </ul>
             </li>
@@ -14,7 +16,7 @@ export default function List() {
                 CS247
                 <ul style={{padding: "revert"}}>
                     <li>
-                        <a href="/school/cs247/mt">Midterm Prep</a>
+                        <Link href="/school/cs247/mt">Midterm Prep</Link>
                     </li>
                 </ul>
             </li>

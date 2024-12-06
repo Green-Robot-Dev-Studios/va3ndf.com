@@ -1,3 +1,5 @@
+import { Link } from "next-view-transitions";
+
 export default function PostList({ posts }) {
     return <>
         <ul className="post-list">
@@ -14,17 +16,17 @@ export default function PostList({ posts }) {
                     </div>
 
                     <div className="post-list__tags">
-                        {tags && tags.map(tag => <a key={tag} href={`/tags/${tag}`}>{tag}</a>)}
+                        {tags && tags.map(tag => <Link key={tag} href={`/tags/${tag}`}>{tag}</Link>)}
                     </div>
                 </div>
 
                 <h3 className="post-list__title">
-                    <a href={`/posts/${id}`}>{title}</a>
+                    <Link href={`/posts/${id}`}>{title}</Link>
                 </h3>
 
                 <p className="post-list__excerpt">{excerpt}</p>
 
-                <a className="post-list__read-more" href={`/posts/${id}`}>read article</a>
+                <Link className="post-list__read-more" href={`/posts/${id}`}>read article</Link>
                 </li>
             ))}
         </ul>

@@ -1,8 +1,11 @@
+import Image from "next/image";
 import PostList from "../../lib/post-list";
-import { getSortedPostsData } from "../../lib/posts";
+import { getMasonryData, getSortedPostsData } from "../../lib/posts";
 
 export default function Crafts() {
-    const allPostsData = getSortedPostsData("crafts");
+    const allPostsData = getMasonryData("crafts");
+    console.log(allPostsData)
 
-    return <PostList posts={allPostsData} />
+
+    return <Image src={allPostsData[0].image} width={50} height={50}></Image>
 }

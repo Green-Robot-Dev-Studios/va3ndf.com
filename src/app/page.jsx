@@ -1,3 +1,4 @@
+import { Link } from "next-view-transitions";
 import PostList from "../lib/post-list";
 import { getSortedPostsData } from "../lib/posts";
 
@@ -17,57 +18,65 @@ export default function Home() {
 
                     <ul className="hero__social-links">
                         <li>
-                            <a
+                            <Link
                                 href="https://nicholasficara.dev/"
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
                                 Personal Site
-                            </a>
+                            </Link>
                         </li>
 
                         <li>
-                            <a
+                            <Link
                                 href="https://github.com/Green-Robot-Dev-Studios"
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
                                 GitHub
-                            </a>
+                            </Link>
                         </li>
 
                         <li>
-                            <a
+                            <Link
                                 href="https://www.qrz.com/db/VA3NDF"
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
                                 QRZ
-                            </a>
+                            </Link>
                         </li>
 
                         <li>
-                            <a
+                            <Link
                                 href="https://www.linkedin.com/in/nicholasficara/"
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
                                 LinkedIn
-                            </a>
+                            </Link>
                         </li>
                     </ul>
                 </div>
             </header>
 
             <section className="post-list__wrapper">
-                <h2 className="post-list__heading">Recent Posts</h2>
+                {/* <Link href=""> */}
+                    <h2 className="post-list__heading">All Posts</h2>
+                {/* </Link>
+                <Link href="posts">
+                    <h2 className="post-list__heading">Tech</h2>
+                </Link>
+                <Link href="crafts">
+                    <h2 className="post-list__heading">Crafts</h2>
+                </Link> */}
 
-                <PostList posts={allPostsData.slice(0,5)} />
+                <PostList posts={allPostsData} />
             </section>
-
-            <a className="all-posts-link" href="/posts">
+{/* 
+            <Link className="all-posts-link" href="/posts">
                 View All Posts
-            </a>
+            </Link> */}
         </>
     );
 }

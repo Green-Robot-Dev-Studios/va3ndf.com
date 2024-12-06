@@ -1,3 +1,5 @@
+import { Link } from "next-view-transitions";
+
 export default function About() {
     return (
         <>
@@ -7,13 +9,13 @@ export default function About() {
                 <p>
                     I'm a Canadian amateur radio operator, holding Basic with
                     Honors and Advanced licenses. Feel free to explore my{" "}
-                    <a href="https://nicholasficara.dev">personal website</a> or
-                    my <a href="https://www.qrz.com/db/VA3NDF">QRZ</a>, linked
+                    <Link href="https://nicholasficara.dev">personal website</Link> or
+                    my <Link href="https://www.qrz.com/db/VA3NDF">QRZ</Link>, linked
                     below in the footer. I write code both professionally and
                     unprofessionally. Feel free to drop me a line at{" "}
-                    <a href="mailto:me@nicholasficara.dev">
+                    <Link href="mailto:me@nicholasficara.dev">
                         me@nicholasficara.dev
-                    </a>
+                    </Link>
                     .
                 </p>
             </div>
