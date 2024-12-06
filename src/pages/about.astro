@@ -2,6 +2,7 @@
 import Layout from '../layouts/BlogPost.astro';
 import me from "../assets/me.jpeg";
 import * as PageContent from "./puzzle.md"
+import { Image } from 'astro:assets';
 ---
 
 <Layout
@@ -9,7 +10,7 @@ import * as PageContent from "./puzzle.md"
 	description=""
 >
 	<main>
-		<img src={me.src} alt="" />
+		<Image src={me} alt="" />
 		<p>
 			I'm a Canadian amateur radio operator, holding Basic with
 			Honors and Advanced licenses. Feel free to explore my{" "}
