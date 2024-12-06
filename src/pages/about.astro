@@ -1,0 +1,29 @@
+---
+import Layout from '../layouts/BlogPost.astro';
+import me from "../assets/me.jpeg";
+import * as PageContent from "./puzzle.md"
+---
+
+<Layout
+	title="About Me!"
+	description=""
+>
+	<main>
+		<img src={me.src} alt="" />
+		<p>
+			I'm a Canadian amateur radio operator, holding Basic with
+			Honors and Advanced licenses. Feel free to explore my{" "}
+			<a href="https://nicholasficara.dev">personal website</a> or
+			my <a href="https://www.qrz.com/db/VA3NDF">QRZ</a>, linked
+			below in the footer. I write code both professionally and
+			unprofessionally. Feel free to drop me a line at{" "}
+			<a href="mailto:me@nicholasficara.dev">
+				me@nicholasficara.dev
+			</a>
+		</p>
+		<p>
+			Or solve my puzzle :)
+			<PageContent.default />
+		</p>
+	</main>
+</Layout>
