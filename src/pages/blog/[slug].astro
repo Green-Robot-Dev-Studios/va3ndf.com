@@ -1,0 +1,30 @@
+---
+import BlogPost from '../../layouts/BlogPost.astro';
+import { getEntries, type Entry } from '../../lib/content';
+
+export async function getStaticPaths() {
+	const entries = await getEntries('blog');
+	return entries.map((entry, i) => ({
+		params: { slug: entry.urlSlug },
+		props: {
+			entry,
+			// The list is newest-first, so the next index is the older entry.
+			prev: entries[i + 1],
+			next: entries[i - 1],
+		},
+	}));
+}
+
+interface Props {
+	entry: Entry;
+	prev?: Entry;
+	next?: Entry;
+}
+
+const { entry, prev, next } = Astro.props;
+const { Content } = await entry.render();
+---
+
+<BlogPost entry={entry} prev={prev} next={next}>
+	<Content />
+</BlogPost>

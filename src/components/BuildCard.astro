@@ -1,0 +1,95 @@
+---
+import { Image } from 'astro:assets';
+import FormattedDate from './FormattedDate.astro';
+import type { Entry } from '../lib/content';
+
+interface Props {
+	entry: Entry;
+	eager?: boolean;
+	titleTag?: 'h2' | 'h3';
+}
+
+const { entry, eager = false, titleTag: Title = 'h3' } = Astro.props;
+const hero = entry.data.heroImage;
+---
+
+<li class="card">
+	<a href={entry.href}>
+		<div class="frame">
+			{
+				hero ? (
+					<Image
+						src={hero}
+						widths={[280, 560, 840]}
+						sizes="(max-width: 34rem) 90vw, (max-width: 58rem) 44vw, 280px"
+						alt=""
+						loading={eager ? 'eager' : 'lazy'}
+						decoding="async"
+					/>
+				) : (
+					<span class="frame-empty">⌗</span>
+				)
+			}
+		</div>
+		<Title class="title">{entry.data.title}</Title>
+		<p class="meta">{entry.data.date && <FormattedDate date={entry.data.date} />}</p>
+	</a>
+</li>
+
+<style>
+	.card {
+		list-style: none;
+	}
+
+	.card a {
+		display: block;
+		text-decoration: none;
+	}
+
+	.frame {
+		aspect-ratio: 4 / 3;
+		overflow: hidden;
+		border-radius: var(--radius-lg);
+		border: 1px solid var(--line);
+		background: var(--bg-sunken);
+		display: grid;
+		place-items: center;
+	}
+
+	.frame :global(img) {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.3, 1);
+	}
+
+	.frame-empty {
+		font-family: var(--font-mono);
+		font-size: 1.5rem;
+		color: var(--line-strong);
+	}
+
+	.title {
+		margin-top: 0.7rem;
+		font-size: 0.9375rem;
+		font-weight: 600;
+		color: var(--text);
+		transition: color 0.15s ease;
+	}
+
+	.meta {
+		margin-top: 0.35rem;
+	}
+
+	.card a:hover .frame :global(img) {
+		transform: scale(1.05);
+	}
+
+	.card a:hover .frame {
+		border-color: var(--line-strong);
+	}
+
+	.card a:hover .title {
+		color: var(--accent);
+	}
+</style>

@@ -1,0 +1,73 @@
+---
+import EntryRow from './EntryRow.astro';
+import type { Entry } from '../lib/content';
+
+interface Props {
+	entries: Entry[];
+	showKind?: boolean;
+	/** Break the list into labelled year sections — useful for long archives. */
+	groupByYear?: boolean;
+	titleTag?: 'h2' | 'h3';
+}
+
+const { entries, showKind = false, groupByYear = false, titleTag = 'h3' } = Astro.props;
+
+const yearOf = (entry: Entry) => entry.data.date?.getUTCFullYear();
+
+// Mark the first entry of each year so the list can render a divider above it.
+const seen = new Set<number | undefined>();
+const rows = entries.map((entry) => {
+	const year = yearOf(entry);
+	const isFirstOfYear = groupByYear && year !== undefined && !seen.has(year);
+	seen.add(year);
+	return { entry, year, isFirstOfYear };
+});
+---
+
+<ul class="list" class:list={{ grouped: groupByYear }}>
+	{
+		rows.map(({ entry, year, isFirstOfYear }) => (
+			<>
+				{isFirstOfYear && (
+					<li class="year" aria-hidden="true">
+						<span class="label">{year}</span>
+						<span class="rule" />
+					</li>
+				)}
+				<EntryRow entry={entry} showKind={showKind} titleTag={titleTag} />
+			</>
+		))
+	}
+</ul>
+
+<style>
+	.list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		border-top: 1px solid var(--line);
+	}
+
+	/* When grouped, the year divider supplies the top rule instead. */
+	.list.grouped {
+		border-top: 0;
+	}
+
+	.year {
+		display: flex;
+		align-items: center;
+		gap: 0.85rem;
+		padding-top: 2rem;
+		padding-bottom: 0.5rem;
+	}
+
+	.year:first-child {
+		padding-top: 0;
+	}
+
+	.year .rule {
+		flex: 1;
+		height: 1px;
+		background: var(--line);
+	}
+</style>

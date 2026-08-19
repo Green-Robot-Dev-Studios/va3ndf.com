@@ -1,0 +1,79 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getTagMap } from '../../lib/content';
+
+const tags = [...(await getTagMap()).entries()].sort(
+	(a, b) => b[1].entries.length - a[1].entries.length || a[1].label.localeCompare(b[1].label),
+);
+---
+
+<Base title="Tags" description="Browse everything on va3ndf.com by topic.">
+	<header class="page-head">
+		<h1>Tags</h1>
+		<p class="sub">{tags.length} topics across writing and builds.</p>
+	</header>
+
+	<ul class="cloud">
+		{
+			tags.map(([slug, { label, entries }]) => (
+				<li>
+					<a href={`/tags/${slug}/`}>
+						{label}
+						<span class="count">{entries.length}</span>
+					</a>
+				</li>
+			))
+		}
+	</ul>
+</Base>
+
+<style>
+	.page-head {
+		margin-bottom: 2rem;
+	}
+
+	h1 {
+		font-family: var(--font-serif);
+		font-size: 2rem;
+		letter-spacing: -0.02em;
+	}
+
+	.sub {
+		margin-top: 0.4rem;
+		color: var(--text-muted);
+		font-size: 0.9375rem;
+	}
+
+	.cloud {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		list-style: none;
+		padding: 0;
+	}
+
+	.cloud a {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.45rem;
+		font-family: var(--font-mono);
+		font-size: 0.8125rem;
+		text-decoration: none;
+		border: 1px solid var(--line);
+		border-radius: 999px;
+		padding: 0.2rem 0.7rem;
+		color: var(--text-soft);
+		transition: all 0.15s ease;
+	}
+
+	.cloud a:hover {
+		color: var(--accent);
+		border-color: var(--accent);
+		background: var(--accent-soft);
+	}
+
+	.count {
+		color: var(--text-muted);
+		font-size: 0.6875rem;
+	}
+</style>

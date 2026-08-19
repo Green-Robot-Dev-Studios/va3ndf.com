@@ -1,30 +1,106 @@
 ---
-import Layout from '../layouts/BlogPost.astro';
-import me from "../assets/me.jpeg";
-import * as PageContent from "./puzzle_src.md"
 import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import me from '../assets/me.jpeg';
+import { SOCIAL_LINKS } from '../consts';
 ---
 
-<Layout
-	title="About Me!"
-	description=""
+<Base
+	title="About"
+	description="Nick Ficara (VA3NDF) — programmer, Canadian amateur radio operator, network operator, and maker."
 >
-	<main>
-		<Image src={me} alt="" />
+	<header class="page-head">
+		<div>
+			<p class="label">About</p>
+			<h1>Nick Ficara</h1>
+		</div>
+		<Image class="avatar" src={me} alt="Nick Ficara" width={144} height={144} loading="eager" />
+	</header>
+
+	<div class="prose">
 		<p>
-			I'm a Canadian amateur radio operator, holding Basic with
-			Honors and Advanced licenses. Feel free to explore my{" "}
-			<a href="https://nicholasficara.dev">personal website</a> or
-			my <a href="https://www.qrz.com/db/VA3NDF">QRZ</a>, linked
-			below in the footer. I write code both professionally and
-			unprofessionally. Feel free to drop me a line at{" "}
-			<a href="mailto:me@nicholasficara.dev">
-				me@nicholasficara.dev
-			</a>
+			I'm a programmer and a Canadian amateur radio operator holding Basic with Honours and
+			Advanced licences, under the callsign <strong>VA3NDF</strong>. I'm also the operator of
+			<a href="https://as214681.net/">AS214681</a>, a small autonomous system I run for the
+			fun of learning how the internet actually fits together.
 		</p>
 		<p>
-			Or solve my puzzle :)
-			<PageContent.default />
+			Most of what ends up here falls into two piles. <a href="/blog">Writing</a> covers
+			software, radio, homelabbing, and networking — things I figured out and wanted to
+			write down before I forgot them. <a href="/builds">Builds</a> covers the physical
+			side: laser cutting, machining, PCB work, leather, and whatever else the shop allows.
 		</p>
-	</main>
-</Layout>
+		<p>
+			You can find me on my <a href="https://nicholasficara.dev">personal site</a>, on
+			<a href="https://www.qrz.com/db/VA3NDF">QRZ</a>, or by email at
+			<a href="mailto:nick@nicholasficara.dev">nick@nicholasficara.dev</a>. There's also a
+			<a href="/puzzle">puzzle</a> on this site — if you crack it, I'd genuinely like to
+			hear from you.
+		</p>
+	</div>
+
+	<ul class="links">
+		{
+			SOCIAL_LINKS.map((link) => (
+				<li>
+					<a href={link.href} target={link.href.startsWith('http') ? '_blank' : undefined} rel="noopener">
+						<Icon name={link.icon} size={13} />
+						{link.label}
+					</a>
+				</li>
+			))
+		}
+	</ul>
+</Base>
+
+<style>
+	.page-head {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: 2rem;
+		margin-bottom: 2.25rem;
+	}
+
+	h1 {
+		font-family: var(--font-serif);
+		font-size: 2rem;
+		letter-spacing: -0.02em;
+		margin-top: 0.3rem;
+	}
+
+	.avatar {
+		width: 72px;
+		height: 72px;
+		border-radius: 50%;
+		border: 1px solid var(--line-strong);
+		object-fit: cover;
+		flex-shrink: 0;
+	}
+
+	.links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.35rem 1rem;
+		list-style: none;
+		padding: 0;
+		margin-top: 2.5rem;
+		padding-top: 1.5rem;
+		border-top: 1px solid var(--line);
+	}
+
+	.links a {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		color: var(--text-muted);
+		text-decoration: none;
+	}
+
+	.links a:hover {
+		color: var(--accent);
+	}
+</style>

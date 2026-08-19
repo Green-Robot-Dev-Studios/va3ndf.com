@@ -1,0 +1,42 @@
+---
+import Base from '../layouts/Base.astro';
+import Puzzle from '../lib/puzzle.md';
+---
+
+<Base
+	title="Puzzle"
+	description="A little puzzle hidden on va3ndf.com. Solve it and say hello."
+>
+	<header class="page-head">
+		<p class="label">Puzzle</p>
+		<h1>Hey — glad you found me.</h1>
+	</header>
+
+	<div class="prose">
+		<p>
+			If you worked out my little puzzle, I can just about guarantee we'd get along. Let me
+			know you solved it: <a href="mailto:solved@va3ndf.com">solved@va3ndf.com</a>.
+		</p>
+
+		<Puzzle />
+
+		<p>
+			Maybe we've got more in common. Have a look at the <a href="/blog">writing</a> for
+			homelabbing, amateur radio, emulators, and the rest — or the
+			<a href="/builds">builds</a> if you'd rather look at pictures.
+		</p>
+	</div>
+</Base>
+
+<style>
+	.page-head {
+		margin-bottom: 2rem;
+	}
+
+	h1 {
+		font-family: var(--font-serif);
+		font-size: clamp(1.75rem, 1.2rem + 2vw, 2.25rem);
+		letter-spacing: -0.02em;
+		margin-top: 0.3rem;
+	}
+</style>

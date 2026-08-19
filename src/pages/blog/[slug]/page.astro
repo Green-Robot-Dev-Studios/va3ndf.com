@@ -1,0 +1,30 @@
+---
+// Redirect stub for the old `/blog/<slug>/page/` URLs. Static hosting can't
+// issue a 301, so this emits a canonical link plus a meta refresh.
+import { getEntries } from '../../../lib/content';
+
+export async function getStaticPaths() {
+	const entries = await getEntries('blog');
+	return entries.map((entry) => ({
+		params: { slug: entry.urlSlug },
+		props: { href: entry.href },
+	}));
+}
+
+const { href } = Astro.props;
+const target = new URL(href, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Redirecting…</title>
+		<link rel="canonical" href={target} />
+		<meta http-equiv="refresh" content={`0; url=${href}`} />
+		<meta name="robots" content="noindex" />
+	</head>
+	<body>
+		<p>This page has moved to <a href={href}>{href}</a>.</p>
+	</body>
+</html>

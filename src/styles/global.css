@@ -1,154 +1,482 @@
-/*
-  The CSS in this style tag is based off of Bear Blog's default CSS.
-  https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
-  License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
- */
+/* ==========================================================================
+   va3ndf.com — design tokens
+   System fonts only: zero webfont bytes, first paint is immediate.
+   ========================================================================== */
 
 :root {
-	--accent: #2337ff;
-	--accent-dark: #000d8a;
-	--black: 15, 18, 25;
-	--gray: 96, 115, 159;
-	--gray-light: 229, 233, 240;
-	--gray-dark: 34, 41, 57;
-	--gray-gradient: rgba(var(--gray-light), 50%), #fff;
-	--box-shadow: 0 2px 6px rgba(var(--gray), 25%), 0 8px 24px rgba(var(--gray), 33%),
-		0 16px 32px rgba(var(--gray), 33%);
+	--font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+		Arial, sans-serif;
+	--font-serif: 'Iowan Old Style', 'Charter', 'Bitstream Charter', 'Sitka Text', Cambria,
+		Georgia, serif;
+	--font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono',
+		monospace;
+
+	/* Widths */
+	--wrap: 46rem;      /* lists, headers, hero images */
+	--measure: 38rem;   /* prose column ~68 characters */
+
+	/* Rhythm */
+	--step: 0.25rem;
+	--radius: 6px;
+	--radius-lg: 10px;
+
+	/* Light palette — warm paper */
+	--bg: #fbfaf8;
+	--bg-raised: #ffffff;
+	--bg-sunken: #f2efe9;
+	--text: #171614;
+	--text-soft: #46433d;
+	--text-muted: #6f6b63;
+	--line: #e5e0d6;
+	--line-strong: #d3cdc0;
+	--accent: #b8410e;
+	--accent-soft: #f3e5dc;
+	--selection: #f8ddcb;
+
+	color-scheme: light;
 }
-@font-face {
-	font-family: 'Atkinson';
-	src: url('/fonts/atkinson-regular.woff') format('woff');
-	font-weight: 400;
-	font-style: normal;
-	font-display: swap;
+
+/* Dark palette */
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme='light']) {
+		--bg: #100f0e;
+		--bg-raised: #191817;
+		--bg-sunken: #1d1c1a;
+		--text: #eae7e0;
+		--text-soft: #c3bfb7;
+		--text-muted: #8b867d;
+		--line: #2a2825;
+		--line-strong: #3b3834;
+		--accent: #ff8a4c;
+		--accent-soft: #2d1d13;
+		--selection: #4a2a15;
+
+		color-scheme: dark;
+	}
 }
-@font-face {
-	font-family: 'Atkinson';
-	src: url('/fonts/atkinson-bold.woff') format('woff');
-	font-weight: 700;
-	font-style: normal;
-	font-display: swap;
+
+:root[data-theme='dark'] {
+	--bg: #100f0e;
+	--bg-raised: #191817;
+	--bg-sunken: #1d1c1a;
+	--text: #eae7e0;
+	--text-soft: #c3bfb7;
+	--text-muted: #8b867d;
+	--line: #2a2825;
+	--line-strong: #3b3834;
+	--accent: #ff8a4c;
+	--accent-soft: #2d1d13;
+	--selection: #4a2a15;
+
+	color-scheme: dark;
 }
-body {
-	font-family: 'Atkinson', sans-serif;
+
+/* --------------------------------------------------------------------------
+   Reset
+   -------------------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+* {
 	margin: 0;
-	padding: 0;
-	text-align: left;
-	background: linear-gradient(var(--gray-gradient)) no-repeat;
-	background-size: 100% 600px;
-	word-wrap: break-word;
+}
+
+html {
+	-webkit-text-size-adjust: 100%;
+	scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		transition-duration: 0.01ms !important;
+	}
+}
+
+body {
+	background: var(--bg);
+	color: var(--text);
+	font-family: var(--font-sans);
+	font-size: 1rem;
+	line-height: 1.6;
+	min-height: 100dvh;
+	display: flex;
+	flex-direction: column;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
 	overflow-wrap: break-word;
-	color: rgb(var(--gray-dark));
-	font-size: 20px;
-	line-height: 1.7;
 }
-main {
-	width: 720px;
-	max-width: calc(100% - 2em);
-	margin: auto;
-	padding: 3em 1em;
+
+::selection {
+	background: var(--selection);
+	color: var(--text);
 }
+
+img,
+picture,
+svg,
+video {
+	display: block;
+	max-width: 100%;
+	height: auto;
+}
+
+input,
+button,
+textarea,
+select {
+	font: inherit;
+	color: inherit;
+}
+
+a {
+	color: inherit;
+	text-decoration-color: var(--line-strong);
+	text-underline-offset: 0.18em;
+	text-decoration-thickness: 1px;
+}
+
+a:hover {
+	text-decoration-color: currentColor;
+}
+
+:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 3px;
+	border-radius: 2px;
+}
+
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-	margin: 0 0 0.5rem 0;
-	color: rgb(var(--black));
 	line-height: 1.2;
+	font-weight: 600;
+	letter-spacing: -0.011em;
+	text-wrap: balance;
 }
-h1 {
-	font-size: 3.052em;
-}
-h2 {
-	font-size: 2.441em;
-}
-h3 {
-	font-size: 1.953em;
-}
-h4 {
-	font-size: 1.563em;
-}
-h5 {
-	font-size: 1.25em;
-}
-strong,
-b {
-	font-weight: 700;
-}
-a {
-	color: var(--accent);
-}
-a:hover {
-	color: var(--accent);
-}
-p {
-	margin-bottom: 1em;
-}
-.prose p {
-	margin-bottom: 2em;
-}
-textarea {
-	width: 100%;
-	font-size: 16px;
-}
-input {
-	font-size: 16px;
-}
-table {
-	width: 100%;
-}
-img {
-	max-width: 100%;
-	height: auto;
-	border-radius: 8px;
-}
-code {
-	padding: 2px 5px;
-	background-color: rgb(var(--gray-light));
-	border-radius: 2px;
-}
-pre {
-	padding: 1.5em;
-	border-radius: 8px;
-}
-pre > code {
-	all: unset;
-}
-blockquote {
-	border-left: 4px solid var(--accent);
-	padding: 0 0 0 20px;
-	margin: 0px;
-	font-size: 1.333em;
-}
+
 hr {
-	border: none;
-	border-top: 1px solid rgb(var(--gray-light));
+	border: 0;
+	border-top: 1px solid var(--line);
 }
-@media (max-width: 720px) {
-	body {
-		font-size: 18px;
+
+/* --------------------------------------------------------------------------
+   Layout primitives
+   -------------------------------------------------------------------------- */
+
+.wrap {
+	width: 100%;
+	max-width: var(--wrap);
+	margin-inline: auto;
+	padding-inline: 1.5rem;
+}
+
+/* Gallery pages need more room than the reading column. */
+.wrap.wide {
+	max-width: 58rem;
+}
+
+@media (max-width: 34rem) {
+	.wrap {
+		padding-inline: 1.15rem;
 	}
+}
+
+main {
+	flex: 1 0 auto;
+	padding-block: 3rem 5rem;
+}
+
+@media (max-width: 34rem) {
 	main {
-		padding: 1em;
+		padding-block: 2rem 3.5rem;
 	}
 }
 
 .sr-only {
-	border: 0;
-	padding: 0;
-	margin: 0;
 	position: absolute !important;
-	height: 1px;
 	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
 	overflow: hidden;
-	/* IE6, IE7 - a 0 height clip, off to the bottom right of the visible 1px box */
-	clip: rect(1px 1px 1px 1px);
-	/* maybe deprecated but we need to support legacy browsers */
-	clip: rect(1px, 1px, 1px, 1px);
-	/* modern browsers, clip-path works inwards from each corner */
 	clip-path: inset(50%);
-	/* added line to stop words getting smushed together (as they go onto separate lines and some screen readers do not understand line feeds as a space */
 	white-space: nowrap;
+	border: 0;
+}
+
+/* Small uppercase mono label — the recurring "instrument panel" motif. */
+.label {
+	font-family: var(--font-mono);
+	font-size: 0.6875rem;
+	letter-spacing: 0.09em;
+	text-transform: uppercase;
+	color: var(--text-muted);
+	font-weight: 500;
+}
+
+.meta {
+	font-family: var(--font-mono);
+	font-size: 0.75rem;
+	color: var(--text-muted);
+	letter-spacing: -0.005em;
+}
+
+/* Section heading: label, a rule that eats the slack, then an action link. */
+.section-head {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	margin-bottom: 1.25rem;
+}
+
+.section-head .rule {
+	flex: 1;
+	height: 1px;
+	background: var(--line);
+}
+
+.section-head .more {
+	font-family: var(--font-mono);
+	font-size: 0.75rem;
+	color: var(--text-muted);
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+.section-head .more:hover {
+	color: var(--accent);
+}
+
+/* --------------------------------------------------------------------------
+   Code (Shiki dual theme)
+   -------------------------------------------------------------------------- */
+
+code {
+	font-family: var(--font-mono);
+	font-size: 0.875em;
+}
+
+:not(pre) > code {
+	background: var(--bg-sunken);
+	border: 1px solid var(--line);
+	border-radius: 4px;
+	padding: 0.1em 0.32em;
+	overflow-wrap: anywhere;
+}
+
+pre {
+	font-family: var(--font-mono);
+	font-size: 0.8125rem;
+	line-height: 1.65;
+	padding: 1rem 1.1rem;
+	border-radius: var(--radius);
+	border: 1px solid var(--line);
+	overflow-x: auto;
+	tab-size: 2;
+}
+
+pre > code {
+	all: unset;
+	font-family: var(--font-mono);
+}
+
+:root[data-theme='dark'] .astro-code,
+:root[data-theme='dark'] .astro-code span {
+	color: var(--shiki-dark) !important;
+	background-color: var(--shiki-dark-bg) !important;
+	font-style: var(--shiki-dark-font-style) !important;
+	font-weight: var(--shiki-dark-font-weight) !important;
+	text-decoration: var(--shiki-dark-text-decoration) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme='light']) .astro-code,
+	:root:not([data-theme='light']) .astro-code span {
+		color: var(--shiki-dark) !important;
+		background-color: var(--shiki-dark-bg) !important;
+		font-style: var(--shiki-dark-font-style) !important;
+		font-weight: var(--shiki-dark-font-weight) !important;
+		text-decoration: var(--shiki-dark-text-decoration) !important;
+	}
+}
+
+/* --------------------------------------------------------------------------
+   Prose
+   -------------------------------------------------------------------------- */
+
+.prose {
+	font-family: var(--font-serif);
+	font-size: 1.125rem;
+	line-height: 1.7;
+	color: var(--text-soft);
+	max-width: var(--measure);
+}
+
+.prose > * + * {
+	margin-top: 1.35em;
+}
+
+.prose p,
+.prose li {
+	text-wrap: pretty;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+	font-family: var(--font-sans);
+	color: var(--text);
+	scroll-margin-top: 4.5rem; /* clears the sticky header on anchor jumps */
+}
+
+/* Headings pull away from what precedes them and hug what follows. */
+.prose > * + :is(h1, h2) {
+	margin-top: 2.4em;
+}
+
+.prose > * + h3 {
+	margin-top: 2em;
+}
+
+.prose > * + h4 {
+	margin-top: 1.75em;
+}
+
+.prose > :is(h1, h2, h3, h4) + * {
+	margin-top: 0.7em;
+}
+
+/* Post bodies frequently open with their own `#` heading; keep it subordinate
+   to the page title rather than competing with it. */
+.prose h1,
+.prose h2 {
+	font-size: 1.35rem;
+	letter-spacing: -0.015em;
+}
+
+.prose h3 {
+	font-size: 1.1rem;
+}
+
+.prose h4 {
+	font-size: 1rem;
+}
+
+.prose > :first-child {
+	margin-top: 0;
+}
+
+.prose a {
+	color: var(--accent);
+	text-decoration: underline;
+	text-decoration-color: color-mix(in srgb, var(--accent) 35%, transparent);
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.15em;
+}
+
+.prose a:hover {
+	text-decoration-color: var(--accent);
+}
+
+.prose strong {
+	color: var(--text);
+	font-weight: 650;
+}
+
+.prose ul,
+.prose ol {
+	padding-left: 1.35em;
+}
+
+.prose li + li {
+	margin-top: 0.4em;
+}
+
+.prose li::marker {
+	color: var(--text-muted);
+}
+
+.prose blockquote {
+	border-left: 2px solid var(--accent);
+	padding-left: 1.1em;
+	color: var(--text-muted);
+	font-style: italic;
+}
+
+.prose img,
+.prose video {
+	width: 100%;
+	border-radius: var(--radius);
+	border: 1px solid var(--line);
+	background: var(--bg-sunken);
+	margin-inline: auto;
+}
+
+.prose figure figcaption {
+	margin-top: 0.6em;
+	font-family: var(--font-mono);
+	font-size: 0.75rem;
+	color: var(--text-muted);
+	text-align: center;
+}
+
+.prose pre {
+	font-size: 0.8125rem;
+}
+
+.prose table {
+	width: 100%;
+	border-collapse: collapse;
+	font-family: var(--font-sans);
+	font-size: 0.9375rem;
+	display: block;
+	overflow-x: auto;
+}
+
+.prose th,
+.prose td {
+	border-bottom: 1px solid var(--line);
+	padding: 0.5em 0.75em;
+	text-align: left;
+}
+
+.prose th {
+	font-weight: 600;
+	color: var(--text);
+	border-bottom-color: var(--line-strong);
+}
+
+/* Section break rendered as a morse-ish dot triad rather than a rule. */
+.prose hr {
+	border: 0;
+	height: auto;
+	margin-block: 2.5em;
+	text-align: center;
+	color: var(--text-muted);
+	letter-spacing: 0.8em;
+	font-family: var(--font-mono);
+}
+
+.prose hr::before {
+	content: '· · ·';
+}
+
+.prose sup a {
+	text-decoration: none;
+	font-family: var(--font-mono);
+	font-size: 0.7em;
 }

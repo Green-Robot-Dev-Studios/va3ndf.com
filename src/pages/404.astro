@@ -1,0 +1,49 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Not found" description="That page doesn't exist.">
+	<div class="nf">
+		<p class="label">Error 404</p>
+		<pre aria-hidden="true">-· ---   ·-· · ·--· ·-·· -·--</pre>
+		<h1>Nothing on this frequency.</h1>
+		<p class="sub">
+			The page you're after doesn't exist. Try the <a href="/blog">writing</a>, the
+			<a href="/builds">builds</a>, or head <a href="/">home</a>.
+		</p>
+	</div>
+</Base>
+
+<style>
+	.nf {
+		padding-block: 3rem 5rem;
+		max-width: 32rem;
+	}
+
+	pre {
+		border: 0;
+		padding: 0;
+		margin-block: 1rem 1.25rem;
+		color: var(--accent);
+		font-size: 0.875rem;
+		line-height: 1.4;
+		letter-spacing: 0.05em;
+		white-space: pre-wrap;
+	}
+
+	h1 {
+		font-family: var(--font-serif);
+		font-size: clamp(1.75rem, 1.2rem + 2vw, 2.25rem);
+		letter-spacing: -0.02em;
+	}
+
+	.sub {
+		margin-top: 0.75rem;
+		color: var(--text-muted);
+		line-height: 1.6;
+	}
+
+	.sub a {
+		color: var(--accent);
+	}
+</style>

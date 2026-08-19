@@ -1,68 +1,59 @@
-# Astro Starter Kit: Blog
+# va3ndf.com
+
+Personal site of Nick Ficara (VA3NDF) — writing, and builds.
+Built with [Astro](https://astro.build), deployed as a static site to GitHub Pages.
+
+## Running it
 
 ```sh
-npm create astro@latest -- --template blog
+npm install
+npm run dev      # http://localhost:4321
+npm run build    # static output in ./dist
+npm run preview  # serve ./dist locally
+./pub.sh         # build + publish to GitHub Pages
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/blog)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/blog)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/blog/devcontainer.json)
+## Content
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Posts live in two content collections, each entry a directory with its images
+alongside it:
 
-![blog](https://github.com/withastro/astro/assets/2244813/ff10799f-a816-4703-b967-c78997e8323d)
-
-Features:
-
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and OpenGraph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-├── public/
-├── src/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
-├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
+```
+src/content/
+  blog/<slug>/page.md      + assets/
+  builds/<slug>/page.md    + assets/
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+Frontmatter (`src/content/config.ts` is the source of truth):
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+```yaml
+title: Morse Code Paddle v2      # required
+description: One-line summary    # optional; shown in lists, RSS, and OG tags
+date: 2024-04-30                 # optional, drives ordering
+updatedDate: 2024-05-02          # optional
+heroImage: "assets/hero.jpg"     # optional; used as thumbnail + OG image
+tags: [Radio, CNC]               # optional; generates /tags/<tag>
+draft: false                     # optional; drafts are excluded from builds
+```
 
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
+Images referenced relatively from the markdown body (`![](assets/foo.jpg)`) are
+optimised by Astro at build time.
 
-Any static assets, like images, can be placed in the `public/` directory.
+`description` values that just repeat the title (or say `test`) are treated as
+empty and hidden — see `cleanDescription` in `src/lib/content.ts`.
 
-## 🧞 Commands
+## URLs
 
-All commands are run from the root of the project, from a terminal:
+Entries are served from `/blog/<slug>/` and `/builds/<slug>/`. Astro derives the
+slug `<slug>/page` from the `page.md` filename, so `src/lib/content.ts` strips
+the trailing segment. The old `/blog/<slug>/page/` URLs still resolve — they
+render a canonical link plus a meta refresh (`src/pages/blog/[slug]/page.astro`).
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## Design
 
-## 👀 Want to learn more?
-
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
-
-## Credit
-
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+- System font stacks only: no webfont requests. Serif for prose, sans for UI,
+  mono for metadata.
+- Colour tokens live at the top of `src/styles/global.css`. Dark mode follows
+  the OS by default and is overridden by `data-theme` on `<html>`.
+- CSS is inlined at build time; the only JavaScript is Astro's view transitions,
+  link prefetching, and the theme toggle.

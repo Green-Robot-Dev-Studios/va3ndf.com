@@ -1,0 +1,168 @@
+---
+import { Image } from 'astro:assets';
+import FormattedDate from './FormattedDate.astro';
+import { cleanDescription, readingTime, KIND_LABEL, type Entry } from '../lib/content';
+
+interface Props {
+	entry: Entry;
+	showKind?: boolean;
+	/** Heading level for the title, so each page keeps a valid outline. */
+	titleTag?: 'h2' | 'h3';
+}
+
+const { entry, showKind = false, titleTag: Title = 'h3' } = Astro.props;
+const description = cleanDescription(entry);
+const hero = entry.data.heroImage;
+---
+
+<li class="row">
+	<a class="hit" href={entry.href}>
+		<span class="sr-only">{entry.data.title}</span>
+	</a>
+
+	<div class="thumb" aria-hidden="true">
+		{
+			hero ? (
+				<Image
+					src={hero}
+					widths={[160, 320]}
+					sizes="112px"
+					alt=""
+					loading="lazy"
+					decoding="async"
+				/>
+			) : (
+				<span class="thumb-empty">{entry.kind === 'builds' ? '⌗' : '¶'}</span>
+			)
+		}
+	</div>
+
+	<div class="body">
+		<Title class="title">{entry.data.title}</Title>
+		{description && <p class="desc">{description}</p>}
+		<p class="meta line">
+			{showKind && <><span class="kind">{KIND_LABEL[entry.kind]}</span><span class="sep">/</span></>}
+			{entry.data.date && <FormattedDate date={entry.data.date} />}
+			{entry.kind === 'blog' && <><span class="sep">/</span>{readingTime(entry.body)} min</>}
+		</p>
+	</div>
+</li>
+
+<style>
+	.row {
+		position: relative;
+		display: grid;
+		grid-template-columns: 112px 1fr;
+		gap: 1.1rem;
+		align-items: start;
+		padding-block: 1rem;
+		border-bottom: 1px solid var(--line);
+		list-style: none;
+	}
+
+	/* Full-row click target sits behind the content so text stays selectable. */
+	.hit {
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+	}
+
+	.thumb {
+		position: relative;
+		aspect-ratio: 4 / 3;
+		overflow: hidden;
+		border-radius: var(--radius);
+		border: 1px solid var(--line);
+		background: var(--bg-sunken);
+		display: grid;
+		place-items: center;
+	}
+
+	.thumb :global(img) {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.3, 1);
+	}
+
+	.thumb-empty {
+		font-family: var(--font-mono);
+		font-size: 1.1rem;
+		color: var(--line-strong);
+	}
+
+	.body {
+		min-width: 0;
+		padding-top: 0.1rem;
+	}
+
+	.title {
+		font-size: 1.0625rem;
+		font-weight: 600;
+		color: var(--text);
+		transition: color 0.15s ease;
+	}
+
+	.desc {
+		margin-top: 0.25rem;
+		font-size: 0.9375rem;
+		color: var(--text-muted);
+		line-height: 1.5;
+		text-wrap: pretty;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+
+	.line {
+		margin-top: 0.45rem;
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
+		flex-wrap: wrap;
+	}
+
+	.kind {
+		color: var(--accent);
+		text-transform: uppercase;
+		letter-spacing: 0.07em;
+		font-size: 0.6875rem;
+	}
+
+	.sep {
+		color: var(--line-strong);
+	}
+
+	/* Hover state, driven from the row so the whole target responds. */
+	.row:hover .title,
+	.row:focus-within .title {
+		color: var(--accent);
+	}
+
+	.row:hover .thumb :global(img) {
+		transform: scale(1.04);
+	}
+
+	.row:hover .thumb,
+	.row:focus-within .thumb {
+		border-color: var(--line-strong);
+	}
+
+	@media (max-width: 34rem) {
+		.row {
+			grid-template-columns: 84px 1fr;
+			gap: 0.85rem;
+			padding-block: 0.95rem;
+		}
+		.title {
+			font-size: 1rem;
+		}
+		.desc {
+			font-size: 0.875rem;
+			-webkit-line-clamp: 2;
+			line-clamp: 2;
+		}
+	}
+</style>
