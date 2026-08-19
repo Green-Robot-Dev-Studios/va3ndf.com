@@ -1,1 +1,1 @@
-npm run build && echo va3ndf.com > ./dist/CNAME && touch ./dist/.nojekyll && npx gh-pages -d dist -t true
+npm run build && echo va3ndf.com > ./dist/CNAME && touch ./dist/.nojekyll && npx gh-pages -d dist

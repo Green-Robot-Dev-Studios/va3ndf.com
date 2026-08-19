@@ -1,6 +1,6 @@
 ---
 title: Anodized Aluminum Tags
-date: 2022-12-13
+date: 2023-12-15
 heroImage: "assets/hero.jpeg"
 description: Anodized Aluminum Tags
 ---

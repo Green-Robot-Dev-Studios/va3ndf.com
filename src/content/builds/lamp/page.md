@@ -1,6 +1,6 @@
 ---
 title: Laser Cut Acrylic Lamp
-date: 2023-12-02
+date: 2024-05-02
 heroImage: "assets/hero.png"
 description: Laser Cut Acrylic Lamp
 ---

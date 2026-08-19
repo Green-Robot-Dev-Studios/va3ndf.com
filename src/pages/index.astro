@@ -2,6 +2,9 @@
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { Image } from 'astro:assets';
+import me from "../assets/me.jpeg";
+import * as PageContent from "./puzzle_src.md"
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 ---
 
@@ -14,11 +17,17 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 		<Header />
 		<main>
 			<h1>Hey I'm Nick! ✌️</h1>
+			<Image src={me} alt="" style={{ width: '200px' }} />
+
 			<p>
-				I'm a young programmer, ham radio operator, networks enthusiast, and crafter. Feel free to snoop around or check out some of my socials!
+				I'm a programmer, amateur radio operator (VA3NDF), networks enthusiast (AS214681), and crafter. Feel free to snoop around or check out some of my socials!
 			</p>
 			<p>
 				Check out my <a href="/blog">blog</a> for my projects and my <a href="/builds">builds</a> for things I've built!
+			</p>
+			<p>
+				Or solve my puzzle :)
+				<PageContent.default />
 			</p>
 		</main>
 		<Footer />
