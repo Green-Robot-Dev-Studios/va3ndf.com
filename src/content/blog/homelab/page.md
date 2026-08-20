@@ -7,6 +7,7 @@ heroImage: "./assets/server.png"
 tags:
   - Homelab
   - Networking
+pinned: 1
 ---
 
 # Here's my dashboard

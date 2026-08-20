@@ -10,6 +10,7 @@ interface Props {
 	titleTag?: 'h2' | 'h3';
 	/** How many leading rows load their thumbnail eagerly. */
 	eagerCount?: number;
+	size?: 'default' | 'large';
 }
 
 const {
@@ -18,6 +19,7 @@ const {
 	groupByYear = false,
 	titleTag = 'h3',
 	eagerCount = 0,
+	size = 'default',
 } = Astro.props;
 
 const yearOf = (entry: Entry) => entry.data.date?.getUTCFullYear();
@@ -42,7 +44,13 @@ const rows = entries.map((entry, i) => {
 						<span class="rule" />
 					</li>
 				)}
-				<EntryRow entry={entry} showKind={showKind} titleTag={titleTag} eager={eager} />
+				<EntryRow
+					entry={entry}
+					showKind={showKind}
+					titleTag={titleTag}
+					eager={eager}
+					size={size}
+				/>
 			</>
 		))
 	}

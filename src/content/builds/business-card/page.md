@@ -3,6 +3,7 @@ title: PCB Business Card
 date: 2025-01-13
 heroImage: "assets/image1.jpeg"
 description: PCB Business Card
+pinned: 2
 ---
 
 # Front

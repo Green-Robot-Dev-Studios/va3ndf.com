@@ -4,12 +4,13 @@ import Base from '../layouts/Base.astro';
 import EntryList from '../components/EntryList.astro';
 import Icon from '../components/Icon.astro';
 import me from '../assets/me.jpeg';
-import { getAllEntries } from '../lib/content';
+import { getAllEntries, partitionPinned } from '../lib/content';
 import { SOCIAL_LINKS } from '../consts';
 
 // The home page is the whole archive — writing and builds in one stream —
-// so there is no "see all" anywhere to click.
-const entries = await getAllEntries();
+// so there is no "see all" anywhere to click. Anything with `pinned` in its
+// frontmatter is lifted out into a selection above it.
+const { pinned, rest } = partitionPinned(await getAllEntries());
 ---
 
 <Base>
@@ -48,8 +49,31 @@ const entries = await getAllEntries();
 		</ul>
 	</section>
 
-	<h2 class="sr-only">Everything, newest first</h2>
-	<EntryList entries={entries} showKind groupByYear titleTag="h3" eagerCount={3} />
+	{
+		pinned.length > 0 && (
+			<section class="block">
+				<h2 class="label heading">Selected</h2>
+				<EntryList entries={pinned} showKind titleTag="h3" eagerCount={3} size="large" />
+			</section>
+		)
+	}
+
+	<section class="block">
+		{
+			pinned.length > 0 ? (
+				<h2 class="label heading">Archive</h2>
+			) : (
+				<h2 class="sr-only">Everything, newest first</h2>
+			)
+		}
+		<EntryList
+			entries={rest}
+			showKind
+			groupByYear
+			titleTag="h3"
+			eagerCount={pinned.length > 0 ? 0 : 3}
+		/>
+	</section>
 
 	<p class="puzzle meta">
 		There is a <a href="/puzzle">puzzle</a> hidden on this site. Solve it and say hello.
@@ -124,6 +148,14 @@ const entries = await getAllEntries();
 	.links a:hover {
 		color: var(--accent);
 		border-bottom-color: var(--accent);
+	}
+
+	.heading {
+		margin-bottom: 0.85rem;
+	}
+
+	.block + .block {
+		margin-top: 2.75rem;
 	}
 
 	.puzzle {

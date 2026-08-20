@@ -32,7 +32,8 @@ description: One-line summary    # optional; shown in lists, RSS, and OG tags
 date: 2024-04-30                 # optional, drives ordering
 updatedDate: 2024-05-02          # optional
 heroImage: "assets/hero.jpg"     # optional; used as thumbnail + OG image
-tags: [Radio, CNC]               # optional; generates /tags/<tag>
+pinned: 1                        # optional; see "Pinning" below
+tags: [Radio, CNC]               # optional; RSS categories only
 draft: false                     # optional; drafts are excluded from builds
 ```
 
@@ -41,6 +42,31 @@ optimised by Astro at build time.
 
 `description` values that just repeat the title (or say `test`) are treated as
 empty and hidden — see `cleanDescription` in `src/lib/content.ts`.
+
+## Pinning
+
+The home page lists everything, newest first. `pinned` lifts an entry out of
+that stream into a **Selected** block above it, so the good stuff isn't buried
+by chronology:
+
+```yaml
+pinned: 1     # explicit rank — 1 shows first, 2 second, and so on
+pinned: true  # pin without choosing a rank; sorts after any numbered entries
+```
+
+Rules worth knowing:
+
+- A pinned entry appears in **Selected** and is removed from the **Archive**
+  below it, so nothing is listed twice on the same page.
+- Pinning affects the home page only. `/blog`, `/builds`, and the RSS feed stay
+  strictly chronological, so a pinned post keeps its place in the timeline there.
+- Pinned rows render larger — bigger thumbnail, bigger title, three lines of
+  description instead of two.
+- With nothing pinned, the home page is a plain reverse-chronological archive
+  and neither section heading appears.
+
+Ranks don't need to be contiguous; `1`, `5`, `10` works fine and leaves room to
+insert something later.
 
 ## URLs
 

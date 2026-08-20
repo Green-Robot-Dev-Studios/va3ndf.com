@@ -9,14 +9,24 @@ interface Props {
 	/** Heading level for the title, so each page keeps a valid outline. */
 	titleTag?: 'h2' | 'h3';
 	eager?: boolean;
+	/** `large` gives pinned entries a bigger thumbnail and title. */
+	size?: 'default' | 'large';
 }
 
-const { entry, showKind = false, titleTag: Title = 'h3', eager = false } = Astro.props;
+const {
+	entry,
+	showKind = false,
+	titleTag: Title = 'h3',
+	eager = false,
+	size = 'default',
+} = Astro.props;
+
 const description = cleanDescription(entry);
 const hero = entry.data.heroImage;
+const large = size === 'large';
 ---
 
-<li class="row">
+<li class="row" class:list={{ large }}>
 	<a class="hit" href={entry.href}>
 		<span class="sr-only">{entry.data.title}</span>
 	</a>
@@ -26,8 +36,8 @@ const hero = entry.data.heroImage;
 			hero ? (
 				<Image
 					src={hero}
-					widths={[160, 320]}
-					sizes="112px"
+					widths={large ? [176, 352] : [160, 320]}
+					sizes={large ? '168px' : '112px'}
 					alt=""
 					loading={eager ? 'eager' : 'lazy'}
 					decoding="async"
@@ -151,7 +161,34 @@ const hero = entry.data.heroImage;
 		border-color: var(--line-strong);
 	}
 
+	.row.large {
+		grid-template-columns: 168px 1fr;
+		padding-block: 1.25rem;
+	}
+
+	.row.large .title {
+		font-size: 1.1875rem;
+	}
+
+	.row.large .desc {
+		font-size: 1rem;
+		-webkit-line-clamp: 3;
+		line-clamp: 3;
+	}
+
 	@media (max-width: 34rem) {
+		.row.large {
+			grid-template-columns: 104px 1fr;
+		}
+
+		.row.large .title {
+			font-size: 1.0625rem;
+		}
+
+		.row.large .desc {
+			font-size: 0.875rem;
+		}
+
 		.row {
 			grid-template-columns: 84px 1fr;
 			gap: 0.85rem;

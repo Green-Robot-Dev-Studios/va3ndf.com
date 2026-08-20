@@ -53,3 +53,34 @@ export async function getAllEntries(): Promise<Entry[]> {
 }
 
 export const KIND_LABEL: Record<Kind, string> = { blog: 'Writing', builds: 'Build' };
+
+/**
+ * Rank for a pinned entry, or `null` if it isn't pinned. A number is an
+ * explicit position (1 first); `true` pins without choosing one, so it sorts
+ * after everything numbered.
+ */
+export function pinRank(entry: Entry): number | null {
+	const pinned = entry.data.pinned;
+	if (pinned === undefined || pinned === false) return null;
+	return pinned === true ? Number.MAX_SAFE_INTEGER : pinned;
+}
+
+/**
+ * Splits a date-sorted list into the pinned selection and the archive that
+ * follows it. An entry appears in exactly one of the two, so the home page
+ * never shows the same thing twice. Pinning is a home-page concern only —
+ * /blog, /builds and the feed stay strictly chronological.
+ */
+export function partitionPinned(entries: Entry[]) {
+	const pinned: Entry[] = [];
+	const rest: Entry[] = [];
+	for (const entry of entries) {
+		(pinRank(entry) === null ? rest : pinned).push(entry);
+	}
+	pinned.sort(
+		(a, b) =>
+			pinRank(a)! - pinRank(b)! ||
+			(b.data.date?.valueOf() ?? 0) - (a.data.date?.valueOf() ?? 0),
+	);
+	return { pinned, rest };
+}

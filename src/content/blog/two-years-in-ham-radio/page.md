@@ -3,6 +3,7 @@ title: Hey, is this thing on?
 date: 2023-09-25
 description: My first two years as an amateur radio operator in Canada
 heroImage: "assets/hero.png"
+pinned: 3
 ---
 
 *Pst, hey. You. Yeah you. This is my first ham radio blog post. I'll get better as I go, amateur radio seems to be one of those hobbies that grows with you for a long, long, long time.*

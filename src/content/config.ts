@@ -10,6 +10,9 @@ const base = ({ image }: { image: any }) =>
 		tags: z.array(z.string()).optional().default([]),
 		authors: z.union([z.string(), z.array(z.string())]).optional(),
 		draft: z.boolean().optional().default(false),
+		// Force-rank on the home page: 1 is first. `true` pins without a
+		// position, landing after any numbered entries. See `pinRank`.
+		pinned: z.union([z.boolean(), z.number()]).optional(),
 	});
 
 const blog = defineCollection({ type: 'content', schema: base });
