@@ -53,21 +53,3 @@ export async function getAllEntries(): Promise<Entry[]> {
 }
 
 export const KIND_LABEL: Record<Kind, string> = { blog: 'Writing', builds: 'Build' };
-
-export function slugifyTag(tag: string) {
-	return tag.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-}
-
-export async function getTagMap() {
-	const entries = await getAllEntries();
-	const map = new Map<string, { label: string; entries: Entry[] }>();
-	for (const entry of entries) {
-		for (const tag of entry.data.tags ?? []) {
-			const slug = slugifyTag(tag);
-			if (!slug) continue;
-			if (!map.has(slug)) map.set(slug, { label: tag, entries: [] });
-			map.get(slug)!.entries.push(entry);
-		}
-	}
-	return map;
-}

@@ -2,14 +2,14 @@
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import EntryList from '../components/EntryList.astro';
-import BuildGrid from '../components/BuildGrid.astro';
 import Icon from '../components/Icon.astro';
 import me from '../assets/me.jpeg';
-import { getAllEntries, getEntries } from '../lib/content';
+import { getAllEntries } from '../lib/content';
 import { SOCIAL_LINKS } from '../consts';
 
-const latest = (await getAllEntries()).slice(0, 6);
-const builds = (await getEntries('builds')).slice(0, 6);
+// The home page is the whole archive — writing and builds in one stream —
+// so there is no "see all" anywhere to click.
+const entries = await getAllEntries();
 ---
 
 <Base>
@@ -18,7 +18,9 @@ const builds = (await getEntries('builds')).slice(0, 6);
 			<Image class="avatar" src={me} alt="Nick Ficara" width={112} height={112} loading="eager" />
 			<div>
 				<h1>Nick Ficara</h1>
-				<p class="meta callsign">VA3NDF <span class="sep">/</span> AS214681 <span class="sep">/</span> Ontario, CA</p>
+				<p class="meta callsign">
+					VA3NDF <span class="sep">/</span> AS214681 <span class="sep">/</span> Ontario, CA
+				</p>
 			</div>
 		</div>
 
@@ -32,7 +34,11 @@ const builds = (await getEntries('builds')).slice(0, 6);
 			{
 				SOCIAL_LINKS.map((link) => (
 					<li>
-						<a href={link.href} target={link.href.startsWith('http') ? '_blank' : undefined} rel="noopener">
+						<a
+							href={link.href}
+							target={link.href.startsWith('http') ? '_blank' : undefined}
+							rel="noopener"
+						>
 							<Icon name={link.icon} size={13} />
 							{link.label}
 						</a>
@@ -42,23 +48,8 @@ const builds = (await getEntries('builds')).slice(0, 6);
 		</ul>
 	</section>
 
-	<section class="block">
-		<div class="section-head">
-			<h2 class="label">Latest</h2>
-			<span class="rule"></span>
-			<a class="more" href="/blog">all writing &rarr;</a>
-		</div>
-		<EntryList entries={latest} showKind />
-	</section>
-
-	<section class="block">
-		<div class="section-head">
-			<h2 class="label">Recent builds</h2>
-			<span class="rule"></span>
-			<a class="more" href="/builds">all builds &rarr;</a>
-		</div>
-		<BuildGrid entries={builds} eagerCount={0} />
-	</section>
+	<h2 class="sr-only">Everything, newest first</h2>
+	<EntryList entries={entries} showKind groupByYear titleTag="h3" eagerCount={3} />
 
 	<p class="puzzle meta">
 		There is a <a href="/puzzle">puzzle</a> hidden on this site. Solve it and say hello.
@@ -67,7 +58,7 @@ const builds = (await getEntries('builds')).slice(0, 6);
 
 <style>
 	.intro {
-		margin-bottom: 3.5rem;
+		margin-bottom: 3rem;
 	}
 
 	.who {
@@ -135,14 +126,8 @@ const builds = (await getEntries('builds')).slice(0, 6);
 		border-bottom-color: var(--accent);
 	}
 
-	.block + .block {
-		margin-top: 3.5rem;
-	}
-
 	.puzzle {
-		margin-top: 3.5rem;
-		padding-top: 1.5rem;
-		border-top: 1px solid var(--line);
+		margin-top: 2rem;
 	}
 
 	.puzzle a {

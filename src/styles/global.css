@@ -234,32 +234,6 @@ main {
 	letter-spacing: -0.005em;
 }
 
-/* Section heading: label, a rule that eats the slack, then an action link. */
-.section-head {
-	display: flex;
-	align-items: center;
-	gap: 1rem;
-	margin-bottom: 1.25rem;
-}
-
-.section-head .rule {
-	flex: 1;
-	height: 1px;
-	background: var(--line);
-}
-
-.section-head .more {
-	font-family: var(--font-mono);
-	font-size: 0.75rem;
-	color: var(--text-muted);
-	text-decoration: none;
-	white-space: nowrap;
-}
-
-.section-head .more:hover {
-	color: var(--accent);
-}
-
 /* --------------------------------------------------------------------------
    Code (Shiki dual theme)
    -------------------------------------------------------------------------- */

@@ -9,11 +9,8 @@ const year = new Date().getFullYear();
 	<div class="wrap inner">
 		<div class="left">
 			<p class="meta">
-				&copy; {year} {SITE_AUTHOR} · <span class="call">VA3NDF</span> · <a href="/puzzle"
-					>puzzle</a
-				>
+				&copy; {year} {SITE_AUTHOR} · <a href="/puzzle">puzzle</a>
 			</p>
-			<p class="meta faint">Built with Astro. No trackers, no cookies.</p>
 		</div>
 
 		<ul class="socials">
@@ -49,19 +46,6 @@ const year = new Date().getFullYear();
 		justify-content: space-between;
 		gap: 1.5rem;
 		flex-wrap: wrap;
-	}
-
-	.left p + p {
-		margin-top: 0.3rem;
-	}
-
-	.faint {
-		color: color-mix(in srgb, var(--text-muted) 70%, transparent);
-	}
-
-	.call {
-		color: var(--accent);
-		letter-spacing: 0.06em;
 	}
 
 	.meta a {

@@ -8,25 +8,33 @@ interface Props {
 	/** Break the list into labelled year sections — useful for long archives. */
 	groupByYear?: boolean;
 	titleTag?: 'h2' | 'h3';
+	/** How many leading rows load their thumbnail eagerly. */
+	eagerCount?: number;
 }
 
-const { entries, showKind = false, groupByYear = false, titleTag = 'h3' } = Astro.props;
+const {
+	entries,
+	showKind = false,
+	groupByYear = false,
+	titleTag = 'h3',
+	eagerCount = 0,
+} = Astro.props;
 
 const yearOf = (entry: Entry) => entry.data.date?.getUTCFullYear();
 
 // Mark the first entry of each year so the list can render a divider above it.
 const seen = new Set<number | undefined>();
-const rows = entries.map((entry) => {
+const rows = entries.map((entry, i) => {
 	const year = yearOf(entry);
 	const isFirstOfYear = groupByYear && year !== undefined && !seen.has(year);
 	seen.add(year);
-	return { entry, year, isFirstOfYear };
+	return { entry, year, isFirstOfYear, eager: i < eagerCount };
 });
 ---
 
 <ul class="list" class:list={{ grouped: groupByYear }}>
 	{
-		rows.map(({ entry, year, isFirstOfYear }) => (
+		rows.map(({ entry, year, isFirstOfYear, eager }) => (
 			<>
 				{isFirstOfYear && (
 					<li class="year" aria-hidden="true">
@@ -34,7 +42,7 @@ const rows = entries.map((entry) => {
 						<span class="rule" />
 					</li>
 				)}
-				<EntryRow entry={entry} showKind={showKind} titleTag={titleTag} />
+				<EntryRow entry={entry} showKind={showKind} titleTag={titleTag} eager={eager} />
 			</>
 		))
 	}

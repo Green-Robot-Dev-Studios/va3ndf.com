@@ -17,7 +17,7 @@ const posts = await getEntries('blog');
 		</p>
 	</header>
 
-	<EntryList entries={posts} groupByYear titleTag="h2" />
+	<EntryList entries={posts} groupByYear titleTag="h2" eagerCount={3} />
 </Base>
 
 <style>
