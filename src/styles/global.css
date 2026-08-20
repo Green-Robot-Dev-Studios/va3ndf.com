@@ -400,6 +400,14 @@ pre > code {
 	margin-inline: auto;
 }
 
+/* Consecutive markdown images land in a single paragraph, so the flow gap
+   between siblings never applies and they stack flush. Most build posts are
+   nothing but images, so space them here. */
+.prose img + img,
+.prose img + br + img {
+	margin-top: 1.35em;
+}
+
 .prose figure figcaption {
 	margin-top: 0.6em;
 	font-family: var(--font-mono);

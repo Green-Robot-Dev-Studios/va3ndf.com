@@ -10,6 +10,7 @@ import { visit } from 'unist-util-visit';
  * one h1 and the outline stays valid.
  */
 function rehypeDemoteH1() {
+	/** @param {import('hast').Root} tree */
 	return (tree) => {
 		visit(tree, 'element', (node) => {
 			if (node.tagName === 'h1') node.tagName = 'h2';
@@ -28,6 +29,10 @@ export default defineConfig({
 	prefetch: {
 		prefetchAll: true,
 		defaultStrategy: 'hover',
+	},
+	image: {
+		// Caps oversized sources and adds real cover-cropping — see the file.
+		service: { entrypoint: './src/lib/image-service.ts' },
 	},
 	build: {
 		assets: 'assets',

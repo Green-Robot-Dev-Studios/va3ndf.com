@@ -38,10 +38,44 @@ draft: false                     # optional; drafts are excluded from builds
 ```
 
 Images referenced relatively from the markdown body (`![](assets/foo.jpg)`) are
-optimised by Astro at build time.
+optimised by Astro at build time — see **Images** below.
 
-`description` values that just repeat the title (or say `test`) are treated as
-empty and hidden — see `cleanDescription` in `src/lib/content.ts`.
+## Descriptions
+
+You never have to write a `description`. Two functions in `src/lib/content.ts`
+decide what gets shown where:
+
+- **`cleanDescription`** is what *lists* use. It returns the written
+  description, or nothing if it's a placeholder (`test`) or just repeats the
+  title. Rows without one simply show title and date, which keeps the archive
+  terse.
+- **`summary`** is what *metadata* uses — meta description, Open Graph, Twitter
+  cards, and RSS. It falls back through: written description → first prose from
+  the body (headings, lists, images, and HTML comments stripped) → a generated
+  sentence like `Spinning Top — a build by Nick Ficara (VA3NDF), November 2022.`
+  It is never empty.
+
+So writing a `description` improves the listing rows; not writing one costs you
+nothing anywhere else.
+
+## Images
+
+`src/lib/image-service.ts` wraps Astro's sharp service with two behaviours it
+lacks, both of which matter here because the source photos come straight off a
+phone at 3024x4032 and up:
+
+- **A long-edge cap.** The stock service resizes by width only and ignores
+  images with no requested width, so every `![](…)` in a post body shipped at
+  full resolution. Body images are now capped at 1280px on the long edge (they
+  render in a 608px column) and component images at 1600px. This took `dist/`
+  from 50 MB to 22 MB and `/builds/lamp/` from 5.9 MB to 1.2 MB.
+- **Real cover-cropping.** The stock `transform` ignores `height`, so asking for
+  1200x630 returned a 1200-wide image at the original aspect ratio — meaning the
+  `og:image:height` tag was wrong on every page. Passing both dimensions now
+  crops properly, using sharp's attention strategy so the subject stays in frame.
+
+Passing only a width still behaves exactly as before, so nothing crops by
+accident.
 
 ## Pinning
 

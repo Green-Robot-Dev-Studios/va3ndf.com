@@ -4,11 +4,13 @@ import BuildGrid from '../../components/BuildGrid.astro';
 import { getEntries } from '../../lib/content';
 
 const builds = await getEntries('builds');
+const shareImage = builds.find((build) => build.data.heroImage)?.data.heroImage;
 ---
 
 <Base
 	title="Builds"
 	description="Things Nick Ficara (VA3NDF) has made — laser cut, machined, soldered, anodized, and stitched."
+	image={shareImage}
 	wide
 >
 	<header class="page-head">

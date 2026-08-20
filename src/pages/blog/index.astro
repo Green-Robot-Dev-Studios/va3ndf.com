@@ -4,11 +4,13 @@ import EntryList from '../../components/EntryList.astro';
 import { getEntries } from '../../lib/content';
 
 const posts = await getEntries('blog');
+const shareImage = posts.find((post) => post.data.heroImage)?.data.heroImage;
 ---
 
 <Base
 	title="Writing"
 	description="Posts on software, amateur radio, homelabbing, networks, and whatever else Nick Ficara (VA3NDF) has been taking apart."
+	image={shareImage}
 >
 	<header class="page-head">
 		<h1>Writing</h1>

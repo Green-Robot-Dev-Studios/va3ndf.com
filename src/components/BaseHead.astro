@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import { ViewTransitions } from 'astro:transitions';
 import { getImage } from 'astro:assets';
+import defaultShareImage from '../assets/me.jpeg';
 import { SITE_TITLE, SITE_AUTHOR, SITE_DESCRIPTION } from '../consts';
 
 interface Props {
@@ -15,7 +16,9 @@ interface Props {
 const {
 	title,
 	description = SITE_DESCRIPTION,
-	image,
+	// Every page gets a card image; pages without one of their own fall back
+	// to the portrait rather than shipping a bare link.
+	image = defaultShareImage,
 	type = 'website',
 	publishedTime,
 } = Astro.props;
@@ -23,10 +26,10 @@ const {
 const pageTitle = title ? `${title} · ${SITE_TITLE}` : `${SITE_TITLE} — ${SITE_AUTHOR}`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const og = image
-	? await getImage({ src: image, width: 1200, height: 630, fit: 'cover', format: 'jpeg' })
-	: undefined;
-const ogURL = og ? new URL(og.src, Astro.site).href : undefined;
+// The custom image service crops to exactly this box, so the dimensions
+// advertised below are true.
+const og = await getImage({ src: image, width: 1200, height: 630, format: 'jpeg', quality: 82 });
+const ogURL = new URL(og.src, Astro.site).href;
 ---
 
 <meta charset="utf-8" />
@@ -55,15 +58,17 @@ const ogURL = og ? new URL(og.src, Astro.site).href : undefined;
 <meta property="og:url" content={canonicalURL} />
 <meta property="og:title" content={title ?? `${SITE_TITLE} — ${SITE_AUTHOR}`} />
 <meta property="og:description" content={description} />
-{ogURL && <meta property="og:image" content={ogURL} />}
-{ogURL && <meta property="og:image:width" content="1200" />}
-{ogURL && <meta property="og:image:height" content="630" />}
+<meta property="og:image" content={ogURL} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={title ?? `${SITE_TITLE} — ${SITE_AUTHOR}`} />
+<meta property="og:locale" content="en_CA" />
 {publishedTime && <meta property="article:published_time" content={publishedTime.toISOString()} />}
 
-<meta name="twitter:card" content={ogURL ? 'summary_large_image' : 'summary'} />
+<meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={title ?? `${SITE_TITLE} — ${SITE_AUTHOR}`} />
 <meta name="twitter:description" content={description} />
-{ogURL && <meta name="twitter:image" content={ogURL} />}
+<meta name="twitter:image" content={ogURL} />
 
 <ViewTransitions />
 
