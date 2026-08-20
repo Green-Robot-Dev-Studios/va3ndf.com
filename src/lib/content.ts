@@ -158,5 +158,5 @@ export function summary(entry: Entry): string {
 				timeZone: 'UTC',
 			})
 		: null;
-	return `${entry.data.title} — a ${noun} by ${SITE_AUTHOR} (${SITE_TITLE})${when ? `, ${when}` : ''}.`;
+	return `${entry.data.title}: a ${noun} by ${SITE_AUTHOR} (${SITE_TITLE})${when ? `, ${when}` : ''}.`;
 }

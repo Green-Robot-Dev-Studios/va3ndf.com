@@ -3,7 +3,7 @@
 export const SITE_TITLE = 'VA3NDF';
 export const SITE_AUTHOR = 'Nick Ficara';
 export const SITE_DESCRIPTION =
-	'Nick Ficara (VA3NDF) — writing and builds on software, amateur radio, networks, and making things with my hands.';
+	'Ramblings about software, hardware, amateur radio, networks, and making things.';
 
 export const NAV_LINKS = [
 	{ href: '/blog', label: 'writing' },
